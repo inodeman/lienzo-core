@@ -7,8 +7,13 @@ import com.ait.lienzo.shared.core.types.Color;
 
 public class ArcsExample extends BaseExample implements Example {
 
+	private Arc[] arcs = new Arc[30];
 	public ArcsExample(String title) {
 		super(title);
+		topPadding = 20;
+		bottomPadding = 100;
+		rightPadding = 30;
+		leftPadding = 20;
 	}
 
 	public void destroy() {
@@ -20,13 +25,29 @@ public class ArcsExample extends BaseExample implements Example {
 		
 		for (int i = 0; i < 30; i++) {  
 			  
-            final Arc arc = new Arc((int) (Util.randomNumber(10, 10)), 0, (Math.PI * 2) / 2);  
-            arc.setX(Util.generateValueWithinBoundary(width, 125)).setY(Util.generateValueWithinBoundary(height, 125))  
-                    .setStrokeColor(Color.getRandomHexColor()).setStrokeWidth(2).setFillColor(Color.getRandomHexColor()).setDraggable(true)  
+            arcs[i] = new Arc((int) (Util.randomNumber(10, 10)), 0, (Math.PI * 2) / 2);  
+            arcs[i] .setStrokeColor(Color.getRandomHexColor()).setStrokeWidth(2).setFillColor(Color.getRandomHexColor()).setDraggable(true)  
                     .setRotationDegrees(Util.randomNumber(3, 10));  
-            layer.add(arc);  
+            layer.add(arcs[i]);  
         }  
+		setLocation();
 		
+	}
+	
+
+	@Override
+    public void onResize() {
+        super.onResize();
+        console.log("ReDrawing Arcs on Resize..--->");
+        setLocation();   	
+        layer.batch();
+    }
+	
+	private void setLocation() {
+	    
+	    for (int i = 0; i < 30; i++) {  
+	    	 setRandomLocation(arcs[i]);
+	    }
 	}
 
 }

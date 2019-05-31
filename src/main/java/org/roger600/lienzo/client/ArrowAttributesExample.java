@@ -51,7 +51,22 @@ public class ArrowAttributesExample extends BaseExample implements Example {
 		detach();
     }
 	
-	private void detach() {
+
+	@Override
+    public void onResize() {
+        super.onResize();
+        console.log("ReDrawing Arrow Example on Resize N/A -->>");
+        setLocation();   	
+        layer.batch();
+    }
+	
+	private void setLocation() {
+		// No need
+	}
+	
+	
+	public void detach() {
+		layer.clear();
 		br.remove();
         arrowTypeLabel.remove();
         select.remove();
@@ -63,6 +78,8 @@ public class ArrowAttributesExample extends BaseExample implements Example {
         arrowAngleSelect.remove();
         baseAnglelabel.remove();
         baseAngleSelect.remove();
+        layer.batch();
+        console.log("Destroying Arrow Attributes --->>");
 	}
 
 	@Override public void init(final LienzoPanel2 panel, final HTMLDivElement topDiv) {
@@ -236,21 +253,19 @@ public class ArrowAttributesExample extends BaseExample implements Example {
 		
 	}
 	
-	public static class DragHandle extends Group implements NodeDragStartHandler, NodeDragMoveHandler, NodeDragEndHandler  
-    {  
+	public static class DragHandle extends Group implements NodeDragStartHandler, NodeDragMoveHandler, NodeDragEndHandler  {  
         private Arrow arrow, dragArrow;  
         private boolean start;  
           
-        public DragHandle(String text, boolean start, Arrow arrow, Arrow dragArrow)  
-        {  
-            Circle c = new Circle(3);  
-            c.setFillColor(ColorName.BLACK.getColor().setA(0.5));  
-            add(c);  
+        public DragHandle(String text, boolean start, Arrow arrow, Arrow dragArrow) {  
+            Circle circle = new Circle(3);  
+            circle.setFillColor(ColorName.BLACK.getColor().setA(0.5));  
+            add(circle);  
               
-            Text t = new Text(text, "Arial, sans-serif", 10);  
-            t.setX(-10).setY(15);  
-            t.setFillColor(ColorName.BLACK);  
-            add(t);  
+            Text txt = new Text(text, "Arial, sans-serif", 10);  
+            txt.setX(-10).setY(15);  
+            txt.setFillColor(ColorName.BLACK);  
+            add(txt);  
               
             this.arrow = arrow;  
             this.dragArrow = dragArrow;  
@@ -265,16 +280,16 @@ public class ArrowAttributesExample extends BaseExample implements Example {
         @Override  
         public void onNodeDragStart(NodeDragStartEvent event) {  
               
-            if (dragArrow.getParent() == null)  
-            {  
+            if (dragArrow.getParent() == null)  {  
                 getViewport().getDragLayer().add(dragArrow);  
                 dragArrow.moveToBottom();  
             }  
               
-            if (start)  
+            if (start) {
                 dragArrow.setStart(new Point2D(event.getX(), event.getY()));  
-            else  
+            } else {  
                 dragArrow.setEnd(new Point2D(event.getX(), event.getY()));  
+            }
               
             dragArrow.setVisible(true);  
             arrow.getScene().draw();  
@@ -282,10 +297,12 @@ public class ArrowAttributesExample extends BaseExample implements Example {
   
         @Override  
         public void onNodeDragMove(NodeDragMoveEvent event) {  
-            if (start)  
-                dragArrow.setStart(new Point2D(event.getX(), event.getY()));  
-            else  
+            if (start) {
+                dragArrow.setStart(new Point2D(event.getX(), event.getY())); 
+            } else {  
                 dragArrow.setEnd(new Point2D(event.getX(), event.getY()));   
+            }
+            
             arrow.setStrokeColor(ColorName.GRAY); 
             arrow.setFillColor(ColorName.TRANSPARENT);   
             arrow.setStart(dragArrow.getStart());  
@@ -295,10 +312,11 @@ public class ArrowAttributesExample extends BaseExample implements Example {
   
         @Override  
         public void onNodeDragEnd(NodeDragEndEvent event) {   
-            if (start)  
+            if (start)  {
                 dragArrow.setStart(new Point2D(event.getX(), event.getY()));  
-            else  
+            } else {  
                 dragArrow.setEnd(new Point2D(event.getX(), event.getY()));  
+            }
   
             dragArrow.setVisible(false);  
               
@@ -313,8 +331,7 @@ public class ArrowAttributesExample extends BaseExample implements Example {
     }  
   
     public void update(int baseWidth, int headWidth, int arrowAngle, int baseAngle, ArrowType arrowType) {  
-        for (int i = 0; i < 2; i++)  
-        {  
+        for (int i = 0; i < 2; i++)  {  
             Arrow a = arrows[i];  
             a.setBaseWidth(baseWidth);  
             a.setHeadWidth(headWidth);  

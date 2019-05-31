@@ -10,8 +10,7 @@ import elemental2.dom.Element.OnclickFn;
 import elemental2.dom.HTMLButtonElement;
 import elemental2.dom.HTMLDivElement;
 
-public class ShapesExample extends BaseExample implements Example
-{
+public class ShapesExample extends BaseExample implements Example {
  
     private HTMLButtonElement rectangleButton = (HTMLButtonElement) DomGlobal.document.createElement("button");
     private HTMLButtonElement roundedCornersRectangleButton = (HTMLButtonElement) DomGlobal.document.createElement("button");
@@ -49,14 +48,15 @@ public class ShapesExample extends BaseExample implements Example
 	private GroupsExample groupsExample = new GroupsExample("Groups Example");
 	private SliceGroupExample sliceGroupExample = new SliceGroupExample("Slice Group Example");
 	
+	private Example currentExample = null;
     public ShapesExample(final String title) {
         super(title);
-        heightOffset = 60;
+        heightOffset = 0;
     }
 
     @Override
 	public void destroy() {
-		super.destroy();
+    	super.destroy();
 		rectangleButton.remove();
 		roundedCornersRectangleButton.remove();
 		linesButton.remove();
@@ -74,6 +74,16 @@ public class ShapesExample extends BaseExample implements Example
 		starsButton.remove();
 		groupsButton.remove();
 		sliceGroupButton.remove();
+		
+		console.log("Destroying Shapes Demo 1-->>#");
+		
+		
+		if (currentExample != null && currentExample == arrowAttributesExample) {
+			arrowAttributesExample.detach();
+		}
+	    
+		console.log("Destroying Shapes Demo -->>>#");
+		
     }
     
     @Override public void init(final LienzoPanel2 panel, final HTMLDivElement topDiv) {
@@ -137,14 +147,34 @@ public class ShapesExample extends BaseExample implements Example
     	starsButton.onclick = (e) -> {return addSubExample(starsExample);};
     	groupsButton.onclick = (e) -> {return addSubExample(groupsExample);};
     	sliceGroupButton.onclick = (e) -> {return addSubExample(sliceGroupExample);};
-    	
     }
     
     private OnclickFn addSubExample(Example example) {
     	panel.removeAll();
     	example.init(panel,  topDiv);
     	example.run();
+    	
+    	 if (currentExample != null && currentExample == arrowAttributesExample) {
+    		 	console.log("Destroying Previous Shapes Example--->>##");
+    		 	arrowAttributesExample.detach();
+    			currentExample = null;
+    	 }
+    	
+    	currentExample = example;
     	return null;
+    }
+    
+    @Override
+    public void onResize() {
+    	console.log("Resizing Call");
+        super.onResize();
+        
+        if (currentExample != null ) {
+        	currentExample.onResize();
+        }
+        
+        layer.batch();
+      
     }
         
 }

@@ -266,6 +266,9 @@ public class DrawImageExample extends BaseExample implements Example
     @Override public void destroy()
     {
         super.destroy();
+        select.remove();
+        slider.remove();
         pictures = null;
+        console.log("Destroying Draw Image ->");
     }
 }

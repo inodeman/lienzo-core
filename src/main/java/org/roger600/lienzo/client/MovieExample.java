@@ -80,6 +80,7 @@ public class MovieExample extends BaseExample implements Example
         movie.stop();
         movie = null;
         text = null;
+        
         super.destroy();
     }
 }

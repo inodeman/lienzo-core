@@ -8,8 +8,14 @@ import com.ait.lienzo.shared.core.types.Color;
 
 public class GroupsExample extends BaseExample implements Example {
 
+	private Star[] stars = new Star[5];
+	
 	public GroupsExample(String title) {
 		super(title);
+		topPadding = 20;
+		bottomPadding = 100;
+		rightPadding = 30;
+		leftPadding = 20;
 	}
 
 	public void destroy() {
@@ -23,14 +29,27 @@ public class GroupsExample extends BaseExample implements Example {
   
         for (int i = 0; i < 5; i++) {  
             final int strokeWidth = Util.randomNumber(2, 10);  
-            final Star star = new Star((int) (Math.random() * 10), 25, 50);  
-            star.setX(Util.generateValueWithinBoundary(width, 125)).setY(Util.generateValueWithinBoundary(height, 125))  
-                    .setStrokeColor(Color.getRandomHexColor()).setStrokeWidth(strokeWidth).setFillColor(Color.getRandomHexColor());  
-            group.add(star);  
+            stars[i] = new Star((int) (Math.random() * 10), 25, 50);  
+            stars[i].setStrokeColor(Color.getRandomHexColor()).setStrokeWidth(strokeWidth).setFillColor(Color.getRandomHexColor());  
+            group.add(stars[i]);  
         }  
-  
-        layer.add(group);  
-		
+        setLocation();
+        layer.add(group);
+	}
+	
+	@Override
+    public void onResize() {
+        super.onResize();
+        console.log("ReDrawing Group Example on Resize --->>");
+        setLocation();   	
+        layer.batch();
+    }
+	
+	private void setLocation() {
+	    
+	    for (int i = 0; i < 5; i++) {  
+	    	 setRandomLocation(stars[i]);
+	    }
 	}
 
 }
