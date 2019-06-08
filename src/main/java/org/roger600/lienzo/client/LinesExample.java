@@ -1,5 +1,6 @@
 package org.roger600.lienzo.client;
 
+import com.ait.lienzo.client.core.shape.AbstractMultiPointShape;
 import com.ait.lienzo.client.core.shape.Line;
 import com.ait.lienzo.client.core.shape.Shape;
 import com.ait.lienzo.client.core.types.Point2D;
@@ -23,7 +24,7 @@ public class LinesExample extends BaseShapesExample<Line> implements Example {
         final double x2 = width * 0.75;  
         double y2 = height * 0.15;  
   
-        for (int i = 0; i < 10; i++) {  
+        for (int i = 0; i < numberOfShapes; i++) {  
             shapes[i] = new Line(x1,y1, x2, y2);  
             shapes[i].setStrokeColor(Color.getRandomHexColor()).setStrokeWidth(1+i).setFillColor(Color.getRandomHexColor());  
             layer.add(shapes[i]);  
@@ -44,10 +45,10 @@ public class LinesExample extends BaseShapesExample<Line> implements Example {
             final double x2 = width * 0.75;  
             double y2 = height * 0.15;  
 	        
-	        for (Shape<? extends Shape<?>> line: shapes) {
+	        for (Shape<Line> line: shapes) {
 	        	Point2D p1 = new Point2D(x1, y1);
 	        	Point2D p2 = new Point2D(x2, y2);
-	        	((Line)line).setPoint2DArray(Point2DArray.fromArrayOfPoint2D(p1, p2));
+	        	((AbstractMultiPointShape<Line>) line).setPoint2DArray(Point2DArray.fromArrayOfPoint2D(p1, p2));
 	        	y1 += 50;  
 	            y2 += 50;  
 	        }
