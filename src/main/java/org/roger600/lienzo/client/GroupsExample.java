@@ -6,7 +6,7 @@ import com.ait.lienzo.client.core.shape.Group;
 import com.ait.lienzo.client.core.shape.Star;
 import com.ait.lienzo.shared.core.types.Color;
 
-public class GroupsExample extends BaseShapesExample implements Example {
+public class GroupsExample extends BaseShapesExample<Star> implements Example {
 	
 	public GroupsExample(String title) {
 		super(title);
@@ -29,5 +29,4 @@ public class GroupsExample extends BaseShapesExample implements Example {
         setLocation();
         layer.add(group);
 	}
-	
 }

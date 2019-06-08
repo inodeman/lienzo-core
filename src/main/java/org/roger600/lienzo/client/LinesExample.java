@@ -6,7 +6,7 @@ import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.client.core.types.Point2DArray;
 import com.ait.lienzo.shared.core.types.Color;
 
-public class LinesExample extends BaseShapesExample implements Example {
+public class LinesExample extends BaseShapesExample<Line> implements Example {
 	
 	public LinesExample(String title) {
 		super(title);
@@ -17,7 +17,6 @@ public class LinesExample extends BaseShapesExample implements Example {
 	
 	@Override
 	public void run() {
-		
 		final double x1 = width * 0.25;  
         double y1 = height * 0.15;  
           

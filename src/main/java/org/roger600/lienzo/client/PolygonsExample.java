@@ -7,7 +7,7 @@ import com.ait.lienzo.client.core.types.Shadow;
 import com.ait.lienzo.shared.core.types.Color;
 import com.ait.lienzo.shared.core.types.LineJoin;
 
-public class PolygonsExample extends BaseShapesExample implements Example {
+public class PolygonsExample extends BaseShapesExample<RegularPolygon> implements Example {
 	
 	public PolygonsExample(String title) {
 		super(title);
@@ -18,7 +18,6 @@ public class PolygonsExample extends BaseShapesExample implements Example {
 	
 	@Override
 	public void run() {
-		
 		for (int i = 0; i < numberOfShapes; i++) {  
 			final int strokeWidth = Util.randomNumber(2, 10);  
 	        
@@ -28,7 +27,6 @@ public class PolygonsExample extends BaseShapesExample implements Example {
                     .setDraggable(true);  
             layer.add(shapes[i]);  
         }  
-		
 		setLocation();
 	}
 	

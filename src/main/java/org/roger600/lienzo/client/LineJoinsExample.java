@@ -4,7 +4,7 @@ import com.ait.lienzo.client.core.shape.Star;
 import com.ait.lienzo.shared.core.types.Color;
 import com.ait.lienzo.shared.core.types.LineJoin;
 
-public class LineJoinsExample extends BaseShapesExample implements Example {
+public class LineJoinsExample extends BaseShapesExample<Star> implements Example {
 	
 	public LineJoinsExample(String title) {
 		super(title);
@@ -15,9 +15,7 @@ public class LineJoinsExample extends BaseShapesExample implements Example {
 
 	@Override
 	public void run() {
-		
 		for (int i = 0; i < numberOfShapes; i++) {  
-			  
 			if (i % 3 == 0) {
 				shapes[i] = new Star(5, 30, 80);  
 				shapes[i].setStrokeColor(Color.getRandomHexColor()).setFillColor(Color.getRandomHexColor())  
@@ -31,7 +29,6 @@ public class LineJoinsExample extends BaseShapesExample implements Example {
 				shapes[i].setStrokeColor(Color.getRandomHexColor()).setFillColor(Color.getRandomHexColor())  
                 .setLineJoin(LineJoin.ROUND).setStrokeWidth(15).setDraggable(true);  
 			}
-            
             layer.add(shapes[i]);  
         }  
 		setLocation();

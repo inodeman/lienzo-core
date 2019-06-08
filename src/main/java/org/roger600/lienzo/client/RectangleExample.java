@@ -3,7 +3,7 @@ package org.roger600.lienzo.client;
 import com.ait.lienzo.client.core.shape.Rectangle;
 import com.ait.lienzo.shared.core.types.Color;
 
-public class RectangleExample extends BaseShapesExample implements Example {
+public class RectangleExample extends BaseShapesExample<Rectangle> implements Example {
 	
 	public RectangleExample(String title) {
 		super(title);
@@ -22,7 +22,5 @@ public class RectangleExample extends BaseShapesExample implements Example {
         }
 		 setLocation();
 		 layer.draw();
-		
 	}
-	
 }

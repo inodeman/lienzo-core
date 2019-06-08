@@ -6,7 +6,7 @@ import com.ait.lienzo.client.core.shape.QuadraticCurve;
 import com.ait.lienzo.shared.core.types.Color;
 import com.ait.lienzo.shared.core.types.LineCap;
 
-public class QuadraticCurveExample extends BaseShapesExample implements Example {
+public class QuadraticCurveExample extends BaseShapesExample<QuadraticCurve> implements Example {
 	
 	public QuadraticCurveExample(String title) {
 		super(title);
@@ -18,14 +18,11 @@ public class QuadraticCurveExample extends BaseShapesExample implements Example 
 	@Override
 	public void run() {
 		final int strokeWidth = Util.randomNumber(2, 10);  
-        
 		for (int i = 0; i < numberOfShapes; i++) {  
 			shapes[i] = new QuadraticCurve(130, 130, 200, 0, 230, 130);  
 			shapes[i].setStrokeColor(Color.getRandomHexColor()).setStrokeWidth(strokeWidth).setDraggable(true).setLineCap(LineCap.ROUND);  
             layer.add(shapes[i]);  
         }  
-		
 		setLocation();
 	}
-	
 }

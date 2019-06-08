@@ -3,8 +3,7 @@ package org.roger600.lienzo.client;
 import com.ait.lienzo.client.core.shape.Rectangle;
 import com.ait.lienzo.shared.core.types.Color;
 
-public class RoundedCornersExample extends BaseShapesExample implements Example {
-
+public class RoundedCornersExample extends BaseShapesExample<Rectangle> implements Example {
 	
 	public RoundedCornersExample(String title) {
 		super(title);
@@ -24,5 +23,4 @@ public class RoundedCornersExample extends BaseShapesExample implements Example 
 		setLocation();
 		layer.draw();
 	}
-
 }

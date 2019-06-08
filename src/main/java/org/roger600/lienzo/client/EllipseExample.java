@@ -3,7 +3,7 @@ package org.roger600.lienzo.client;
 import com.ait.lienzo.client.core.shape.Ellipse;
 import com.ait.lienzo.shared.core.types.Color;
 
-public class EllipseExample extends BaseShapesExample implements Example {
+public class EllipseExample extends BaseShapesExample<Ellipse> implements Example {
 
 	public EllipseExample(String title) {
 		super(title);
@@ -12,14 +12,9 @@ public class EllipseExample extends BaseShapesExample implements Example {
 		shapes = new Ellipse[numberOfShapes];
 	}
 
-	public void destroy() {
-        super.destroy();
-    }
-
 	@Override
 	public void run() {
 		final int strokeWidth = 1;  
-		
 		for (int i = 0; i < numberOfShapes; i++) {  
 			shapes[i] = new Ellipse(Math.random() * 160, Math.random() * 80);  
 			shapes[i].setStrokeColor(Color.getRandomHexColor()).setStrokeWidth(strokeWidth).setFillColor(Color.getRandomHexColor()).setDraggable(true);  
@@ -27,5 +22,4 @@ public class EllipseExample extends BaseShapesExample implements Example {
         }  
 		setLocation();
 	}
-	
 }

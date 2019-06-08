@@ -5,7 +5,7 @@ import com.ait.lienzo.client.core.shape.Rectangle;
 import com.ait.lienzo.client.core.shape.Slice;
 import com.ait.lienzo.shared.core.types.ColorName;
 
-public class SliceGroupExample extends BaseShapesExample implements Example {
+public class SliceGroupExample extends BaseShapesExample<Slice> implements Example {
 
 	private SliceGroup sliceGroup;
 	
@@ -40,7 +40,6 @@ public class SliceGroupExample extends BaseShapesExample implements Example {
 	private class SliceGroup extends Group {  
   	  
 		private Rectangle rectangle;
-		
 		private double width;
 		
         public SliceGroup(double width) {  

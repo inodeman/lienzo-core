@@ -2,9 +2,9 @@ package org.roger600.lienzo.client;
 
 import com.ait.lienzo.client.core.shape.Shape;
 
-public abstract class BaseShapesExample extends BaseExample implements Example {
+public abstract class BaseShapesExample<T extends Shape<T>> extends BaseExample implements Example {
 
-	protected Shape<? extends Shape<?>>[] shapes;
+	protected Shape<T>[] shapes;
 	
 	protected int numberOfShapes = 10; // Default
 	protected boolean ignoreLocation = false;
@@ -37,9 +37,7 @@ public abstract class BaseShapesExample extends BaseExample implements Example {
         if (!ignoreLocation) {
         	setLocation();
         }
-        
         layer.batch();
     }
-	
 
 }

@@ -6,7 +6,7 @@ import com.ait.lienzo.client.core.types.Point2DArray;
 import com.ait.lienzo.shared.core.types.Color;
 import com.ait.lienzo.shared.core.types.LineCap;
 
-public class LinesCapExample extends BaseShapesExample implements Example {
+public class LinesCapExample extends BaseShapesExample<Line> implements Example {
 	
 	public LinesCapExample(String title) {
 		super(title);

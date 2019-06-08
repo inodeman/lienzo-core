@@ -9,7 +9,7 @@ import com.ait.lienzo.shared.core.types.ArrowType;
 import com.ait.lienzo.shared.core.types.Color;
 import com.ait.lienzo.shared.core.types.LineJoin;
 
-public class ArrowsExample extends BaseShapesExample implements Example {
+public class ArrowsExample extends BaseShapesExample<Arrow> implements Example {
 	
 	public ArrowsExample(String title) {
 		super(title);
@@ -20,7 +20,6 @@ public class ArrowsExample extends BaseShapesExample implements Example {
 
 	@Override
 	public void run() {
-		
 		for (int i = 0; i < numberOfShapes; i++) {  
             
             double x1 = Util.randomDoubleBetween(0, width);  

@@ -5,7 +5,7 @@ import org.roger600.Util;
 import com.ait.lienzo.client.core.shape.Star;
 import com.ait.lienzo.shared.core.types.Color;
 
-public class StarsExample extends BaseShapesExample implements Example {
+public class StarsExample extends BaseShapesExample<Star> implements Example {
 	
 	public StarsExample(String title) {
 		super(title);
@@ -16,17 +16,13 @@ public class StarsExample extends BaseShapesExample implements Example {
 
 	@Override
 	public void run() {
-		
-		for (int i = 0; i < 40; i++) {  
+		for (int i = 0; i < numberOfShapes; i++) {  
             final int strokeWidth = Util.randomNumber(2, 10);  
             shapes[i] = new Star((int) (Math.random() * 10), 25, 50);  
             shapes[i].setStrokeColor(Color.getRandomHexColor())  
                     .setStrokeWidth(strokeWidth).setFillColor(Color.getRandomHexColor()).setDraggable(true);  
-  
             layer.add(shapes[i]);  
         }  
-		
 		setLocation();
 	}
-	
 }
