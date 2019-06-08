@@ -6,49 +6,26 @@ import com.ait.lienzo.client.core.shape.QuadraticCurve;
 import com.ait.lienzo.shared.core.types.Color;
 import com.ait.lienzo.shared.core.types.LineCap;
 
-public class QuadraticCurveExample extends BaseExample implements Example {
-
-	private QuadraticCurve[] curves = new QuadraticCurve[30];
+public class QuadraticCurveExample extends BaseShapesExample implements Example {
 	
 	public QuadraticCurveExample(String title) {
 		super(title);
-		topPadding = 20;
-		bottomPadding = 100;
-		rightPadding = 120;
-		leftPadding = -50;
+		this.setPaddings(-50, 20, 120, 100);
+		numberOfShapes = 30;
+		shapes = new QuadraticCurve[numberOfShapes];
 	}
-
-	public void destroy() {
-        super.destroy();
-    }
-
+	
 	@Override
 	public void run() {
-		
 		final int strokeWidth = Util.randomNumber(2, 10);  
         
-		for (int i = 0; i < 30; i++) {  
-            curves[i] = new QuadraticCurve(130, 130, 200, 0, 230, 130);  
-            curves[i].setStrokeColor(Color.getRandomHexColor()).setStrokeWidth(strokeWidth).setDraggable(true).setLineCap(LineCap.ROUND);  
-            layer.add(curves[i]);  
+		for (int i = 0; i < numberOfShapes; i++) {  
+			shapes[i] = new QuadraticCurve(130, 130, 200, 0, 230, 130);  
+			shapes[i].setStrokeColor(Color.getRandomHexColor()).setStrokeWidth(strokeWidth).setDraggable(true).setLineCap(LineCap.ROUND);  
+            layer.add(shapes[i]);  
         }  
 		
 		setLocation();
 	}
 	
-	@Override
-    public void onResize() {
-        super.onResize();
-        console.log("ReDrawing Quadratic Curve Example on Resize ->>");
-        setLocation();   	
-        layer.batch();
-    }
-	
-	private void setLocation() {
-	    
-	    for (int i = 0; i < 30; i++) {  
-	    	 setRandomLocation(curves[i]);
-	    }
-	}
-
 }

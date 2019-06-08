@@ -9,26 +9,19 @@ import com.ait.lienzo.shared.core.types.ArrowType;
 import com.ait.lienzo.shared.core.types.Color;
 import com.ait.lienzo.shared.core.types.LineJoin;
 
-public class ArrowsExample extends BaseExample implements Example {
-
-	private Arrow[] arrows = new Arrow[40];
+public class ArrowsExample extends BaseShapesExample implements Example {
 	
 	public ArrowsExample(String title) {
 		super(title);
-		topPadding = 20;
-		bottomPadding = 100;
-		rightPadding = 30;
-		leftPadding = 20;
+		this.setPaddings(20, 20, 30, 100);
+		numberOfShapes = 40;
+		shapes = new Arrow[numberOfShapes];
 	}
-
-	public void destroy() {
-        super.destroy();
-    }
 
 	@Override
 	public void run() {
 		
-		for (int i = 0; i < 40; ) {  
+		for (int i = 0; i < numberOfShapes; i++) {  
             
             double x1 = Util.randomDoubleBetween(0, width);  
             double y1 = Util.randomDoubleBetween(0, height);  
@@ -44,40 +37,23 @@ public class ArrowsExample extends BaseExample implements Example {
             double arrowAngle = Util.randomDoubleBetween(25, 70);  
             double baseAngle = Util.randomDoubleBetween(15, 100 - arrowAngle);  
               
-            arrows[i] = new Arrow(new Point2D(x1, y1), new Point2D(x2, y2),   
+            shapes[i] = new Arrow(new Point2D(x1, y1), new Point2D(x2, y2),   
                     baseWidth, headWidth, arrowAngle, baseAngle,   
                     Util.randomValue(ArrowType.values()));  
               
             int strokeWidth = Util.randomIntBetween(1, 10);  
               
-            arrows[i].setShadow(new Shadow("black", 6, 6, 6))  
+            shapes[i].setShadow(new Shadow("black", 6, 6, 6))  
                 .setFillColor(Color.getRandomHexColor())  
                 .setStrokeWidth(strokeWidth)  
                 .setStrokeColor(Color.getRandomHexColor())  
                 .setLineJoin(Util.randomValue(LineJoin.values()))  
                 .setDraggable(true);  
               
-            layer.add(arrows[i]);  
-              
-            i++;  
+            layer.add(shapes[i]);  
         }  
 		setLocation();
 		layer.draw();
 	}
 	
-	@Override
-    public void onResize() {
-        super.onResize();
-        console.log("ReDrawing Arrows Example on Resize.-->>");
-        setLocation();   	
-        layer.batch();
-    }
-	
-	private void setLocation() {
-	    
-	    for (int i = 0; i < 40; i++) {  
-	    	 setRandomLocation(arrows[i]);
-	    }
-	}
-
 }

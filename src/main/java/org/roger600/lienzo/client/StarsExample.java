@@ -5,50 +5,28 @@ import org.roger600.Util;
 import com.ait.lienzo.client.core.shape.Star;
 import com.ait.lienzo.shared.core.types.Color;
 
-public class StarsExample extends BaseExample implements Example {
-
-	private Star[] stars = new Star[40];
+public class StarsExample extends BaseShapesExample implements Example {
 	
 	public StarsExample(String title) {
 		super(title);
-		topPadding = 20;
-		bottomPadding = 100;
-		rightPadding = 30;
-		leftPadding = 20;
+		this.setPaddings(20, 20, 30, 100);
+		numberOfShapes = 40;
+		shapes = new Star[numberOfShapes];
 	}
-
-	public void destroy() {
-        super.destroy();
-    }
 
 	@Override
 	public void run() {
 		
 		for (int i = 0; i < 40; i++) {  
             final int strokeWidth = Util.randomNumber(2, 10);  
-            stars[i] = new Star((int) (Math.random() * 10), 25, 50);  
-            stars[i].setStrokeColor(Color.getRandomHexColor())  
+            shapes[i] = new Star((int) (Math.random() * 10), 25, 50);  
+            shapes[i].setStrokeColor(Color.getRandomHexColor())  
                     .setStrokeWidth(strokeWidth).setFillColor(Color.getRandomHexColor()).setDraggable(true);  
   
-            layer.add(stars[i]);  
+            layer.add(shapes[i]);  
         }  
 		
 		setLocation();
 	}
 	
-	@Override
-    public void onResize() {
-        super.onResize();
-        console.log("ReDrawing Stars Example on Resize --->>");
-        setLocation();   	
-        layer.batch();
-    }
-	
-	private void setLocation() {
-	    
-	    for (int i = 0; i < 40; i++) {  
-	    	 setRandomLocation(stars[i]);
-	    }
-	}
-
 }

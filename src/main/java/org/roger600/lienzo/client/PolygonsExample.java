@@ -7,53 +7,29 @@ import com.ait.lienzo.client.core.types.Shadow;
 import com.ait.lienzo.shared.core.types.Color;
 import com.ait.lienzo.shared.core.types.LineJoin;
 
-public class PolygonsExample extends BaseExample implements Example {
-
-	private RegularPolygon[] polys = new RegularPolygon[40];
+public class PolygonsExample extends BaseShapesExample implements Example {
 	
 	public PolygonsExample(String title) {
 		super(title);
-		topPadding = 20;
-		bottomPadding = 100;
-		rightPadding = 30;
-		leftPadding = 20;
+		this.setPaddings(20, 20, 30, 100);
+		numberOfShapes = 40;
+		shapes = new RegularPolygon[numberOfShapes];
 	}
-
-	public void destroy() {
-        super.destroy();
-    }
-
+	
 	@Override
 	public void run() {
 		
-		
-		for (int i = 0; i < 40; i++) {  
+		for (int i = 0; i < numberOfShapes; i++) {  
 			final int strokeWidth = Util.randomNumber(2, 10);  
 	        
-            polys[i] = new RegularPolygon(8, 60);  
-            polys[i].setShadow(new Shadow("black", 6, 6, 6)).setFillColor(Color.getRandomHexColor()).setStrokeWidth(strokeWidth)  
+			shapes[i] = new RegularPolygon(8, 60);  
+			shapes[i].setShadow(new Shadow("black", 6, 6, 6)).setFillColor(Color.getRandomHexColor()).setStrokeWidth(strokeWidth)  
                     .setStrokeColor(Color.getRandomHexColor()).setLineJoin(LineJoin.ROUND)
                     .setDraggable(true);  
-            layer.add(polys[i]);  
+            layer.add(shapes[i]);  
         }  
 		
 		setLocation();
-		
 	}
 	
-	@Override
-    public void onResize() {
-        super.onResize();
-        console.log("ReDrawing Polygons Example on Resize --->>");
-        setLocation();   	
-        layer.batch();
-    }
-	
-	private void setLocation() {
-	    
-	    for (int i = 0; i < 40; i++) {  
-	    	 setRandomLocation(polys[i]);
-	    }
-	}
-
 }
