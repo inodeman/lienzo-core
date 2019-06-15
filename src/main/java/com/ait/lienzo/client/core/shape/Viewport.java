@@ -91,9 +91,6 @@ public class Viewport extends ContainerNode<Scene, Viewport> implements EventRec
 
     private       Mediators      m_mediators;
 
-    @JsProperty
-    private Transform            transform;
-
     private static long idCounter;
 
     private final OnEventHandlers m_onEventHandlers = new OnEventHandlers();
@@ -146,11 +143,6 @@ public class Viewport extends ContainerNode<Scene, Viewport> implements EventRec
         return new ViewportFastArrayStorageEngine();
     }
 
-    public Transform getTransform()
-    {
-        return this.transform;
-    }
-
     /**
      * Sets the Transform for this Viewport and fires a ZoomEvent
      * to any ZoomHandlers registered with this Viewport.
@@ -162,7 +154,7 @@ public class Viewport extends ContainerNode<Scene, Viewport> implements EventRec
 
     public final Viewport setTransform(final Transform transform)
     {
-        this.transform = transform;
+        super.setTransform(transform);
 
         viewportTransformChangedEvent.revive();
         viewportTransformChangedEvent.override(this);

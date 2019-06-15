@@ -133,13 +133,16 @@ public abstract class Node<T extends Node<T>> implements IDrawable<T>
     private       Point2D                 scale;
 
     @JsProperty
-    private       Point2D                   shear;
+    private       Point2D                 shear;
 
     @JsProperty
-    private       Point2D                   offset;
+    private       Point2D                 offset;
 
     @JsProperty
-    private       DragConstraint            dragConstraint;
+    private       DragConstraint          dragConstraint;
+
+    @JsProperty
+    private       Transform               transform;
 
     /**
      * 1.0 is the default
@@ -178,6 +181,10 @@ public abstract class Node<T extends Node<T>> implements IDrawable<T>
     @JsProperty
     private boolean                   listening = true;
 
+    /**
+     * This is cached, to avoid recreating each draw
+     */
+    private Transform cachedXfrm;
 
     @JsProperty
     private EventPropagationMode eventPropagationMode = EventPropagationMode.lookup(null);
@@ -927,15 +934,25 @@ public abstract class Node<T extends Node<T>> implements IDrawable<T>
 
     protected Transform getPossibleNodeTransform()
     {
-        if (false == hasAnyTransformAttributes())
+
+        if (false == hasAnyTransformAttributes() && null == transform)
         {
             return null;
         }
-        final Transform xfrm = Transform.fromXY(getX(), getY());
+        cachedXfrm = Transform.fromXY(cachedXfrm, getX(), getY());
+
+        Transform t2 = getTransform();
+
+        if (t2 != null) // Use the Transform if it's defined
+        {
+            cachedXfrm.multiply(t2);
+            return cachedXfrm;
+
+        }
 
         if (false == hasComplexTransformAttributes())
         {
-            return xfrm;
+            return cachedXfrm;
         }
         // Otherwise use ROTATION, SCALE, OFFSET and SHEAR
 
@@ -957,15 +974,15 @@ public abstract class Node<T extends Node<T>> implements IDrawable<T>
         {
             if ((ox != 0) || (oy != 0))
             {
-                xfrm.translate(ox, oy);
+                cachedXfrm.translate(ox, oy);
 
-                xfrm.rotate(r);
+                cachedXfrm.rotate(r);
 
-                xfrm.translate(-ox, -oy);
+                cachedXfrm.translate(-ox, -oy);
             }
             else
             {
-                xfrm.rotate(r);
+                cachedXfrm.rotate(r);
             }
         }
         final Point2D scale = getScale();
@@ -980,15 +997,15 @@ public abstract class Node<T extends Node<T>> implements IDrawable<T>
             {
                 if ((ox != 0) || (oy != 0))
                 {
-                    xfrm.translate(ox, oy);
+                    cachedXfrm.translate(ox, oy);
 
-                    xfrm.scaleWithXY(sx, sy);
+                    cachedXfrm.scaleWithXY(sx, sy);
 
-                    xfrm.translate(-ox, -oy);
+                    cachedXfrm.translate(-ox, -oy);
                 }
                 else
                 {
-                    xfrm.scaleWithXY(sx, sy);
+                    cachedXfrm.scaleWithXY(sx, sy);
                 }
             }
         }
@@ -1002,10 +1019,10 @@ public abstract class Node<T extends Node<T>> implements IDrawable<T>
 
             if ((sx != 0) || (sy != 0))
             {
-                xfrm.shear(sx, sy);
+                cachedXfrm.shear(sx, sy);
             }
         }
-        return xfrm;
+        return cachedXfrm;
     }
 
     @Override
@@ -1155,6 +1172,17 @@ public abstract class Node<T extends Node<T>> implements IDrawable<T>
     public String getID()
     {
         return this.id;
+    }
+
+    public Transform getTransform()
+    {
+        return transform;
+    }
+
+    public T setTransform(final Transform transform)
+    {
+        this.transform = transform;
+        return cast();
     }
 
     /**

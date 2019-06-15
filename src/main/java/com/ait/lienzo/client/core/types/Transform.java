@@ -17,6 +17,7 @@
 package com.ait.lienzo.client.core.types;
 
 import com.ait.lienzo.client.core.util.GeometryException;
+import com.ait.lienzo.client.core.util.Matrix;
 
 import elemental2.core.Global;
 import jsinterop.annotations.JsProperty;
@@ -545,11 +546,70 @@ public final class Transform
         return toJSONString().hashCode();
     }
 
-    public static final Transform fromXY(final double x, final double y)
+    public static final Transform fromXY(Transform xfrm, final double x, final double y)
     {
-        Transform jso = new Transform();
-        jso.v = new double[] {1, 0, 0, 1, x, y };
-        return jso;
+
+        if ( xfrm == null)
+        {
+            xfrm = new Transform();
+        }
+        xfrm.v[0] = 1;
+        xfrm.v[1] = 0;
+        xfrm.v[2] = 0;
+        xfrm.v[3] = 1;
+        xfrm.v[4] = x;
+        xfrm.v[5] = y;
+
+        return xfrm;
+    }
+
+    /**
+     * Returns a Transform that converts
+     * the 3 source points into the 3 destination points.
+     *
+     * @param src       Array with 3 (different) source points
+     * @param target    Array with 3 target points
+     * @return Transform
+     */
+    public static final Transform create3PointTransform(Point2DArray src, Point2DArray target)
+    {
+        // Determine T so that:
+        //
+        // T * P = P' for each Point
+        //
+        // where T = (a b c)
+        // (d e f)
+        //
+        // T * P => x' = (ax + by + c)
+        // y' = (dx + ey + f)
+        //
+        // Given are 3 points and their projections: P1, P1', P2, P2', P3, P3'.
+        // P1 is (x1, y1) P1' is (x1', y1')
+        //
+        // (ax1 + by1 + c ) = x1'
+        // ( dx1 + ey1 + f) = y1'
+        // (ax2 + by2 + c ) = x2'
+        // ( dx2 + ey2 + f) = y2'
+        // (ax3 + by3 + c ) = x3'
+        // ( dx3 + ey3 + f) = y3'
+
+        Point2D p1 = src.get(0);
+        Point2D p2 = src.get(1);
+        Point2D p3 = src.get(2);
+
+        Point2D p1_ = target.get(0);
+        Point2D p2_ = target.get(1);
+        Point2D p3_ = target.get(2);
+
+        double[][] eq = { { p1.getX(), p1.getY(), 1, 0, 0, 0 }, { 0, 0, 0, p1.getX(), p1.getY(), 1 }, { p2.getX(), p2.getY(), 1, 0, 0, 0 }, { 0, 0, 0, p2.getX(), p2.getY(), 1 }, { p3.getX(), p3.getY(), 1, 0, 0, 0 }, { 0, 0, 0, p3.getX(), p3.getY(), 1 }, };
+
+        double[][] s = { { p1_.getX(), p1_.getY(), p2_.getX(), p2_.getY(), p3_.getX(), p3_.getY() } };
+        Matrix m = new Matrix(eq);
+        Matrix rhs = new Matrix(s).transpose();
+        Matrix T = m.solve(rhs);
+
+        double[][] d = T.getData();
+        return Transform.makeFromValues(d[0][0], d[3][0], d[1][0], d[4][0], d[2][0], d[5][0]);
     }
 
     /**

@@ -256,9 +256,12 @@ public class Sprite extends Shape<Sprite>
 
         String behavior = getSpriteBehavior();
 
-        m_index = 0;
+        if ((null != behavior) && (false == behavior.trim().isEmpty()))
+        {
+            m_index = 0;
 
-        m_frames = bmap.getFramesForBehavior(behavior);
+            m_frames = bmap.getFramesForBehavior(behavior);
+        }
         return this;
     }
 
@@ -276,10 +279,12 @@ public class Sprite extends Shape<Sprite>
         this.spriteBehavior = behavior;
 
         SpriteBehaviorMap bmap = getSpriteBehaviorMap();
+        if (null != bmap)
+        {
+            m_index = 0;
 
-        m_index = 0;
-
-        m_frames = bmap.getFramesForBehavior(behavior);
+            m_frames = bmap.getFramesForBehavior(behavior);
+        }
         return this;
     }
 
